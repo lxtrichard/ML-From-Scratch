@@ -46,12 +46,3 @@ if __name__ == "__main__":
     
     y_pred = model.predict(X_test)
     print("Accuracy:", np.mean(y_pred == y_test))
-    
-    # import logistic_regression
-    from sklearn.linear_model import LogisticRegression
-    model_1 = LogisticRegression()
-    model_1.fit(X_train, y_train)
-    
-    y_pred = model_1.predict(X_test)
-    print("Accuracy:", np.mean(y_pred == y_test))
-    
