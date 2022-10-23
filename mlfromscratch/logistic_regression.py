@@ -4,6 +4,7 @@ from tqdm import tqdm
 
 from sklearn.model_selection import train_test_split
 from activation import Sigmoid
+from utils import normalize
 
 
 class LogisticRegression():
@@ -18,7 +19,7 @@ class LogisticRegression():
         limit = 1 / np.sqrt(n_features)
         self.param = np.random.uniform(-limit, limit, (n_features,))
 
-    def fit(self, X, y, n_iterations=4000):
+    def fit(self, X, y, n_iterations=1000):
         self._initialize_parameters(X)
         # Tune parameters for n iterations
         for i in tqdm(range(n_iterations)):
@@ -35,10 +36,8 @@ class LogisticRegression():
 if __name__ == "__main__":
     from sklearn.datasets import load_digits
     digits = load_digits()
-    X = digits.data
+    X = normalize(digits.data)
     y = digits.target
-    y[y < 5] = 0
-    y[y >= 5] = 1
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
     
     model = LogisticRegression()

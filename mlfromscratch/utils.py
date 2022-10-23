@@ -19,3 +19,26 @@ class l2_regularization():
 
     def grad(self, w):
         return self.alpha * w
+
+class CrossEntropy():
+    def __call__(self, y_pred, y_true):
+        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+        return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
+    def gradient(self, y_pred, y_true):
+        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+        return - (y_true / y_pred) + (1 - y_true) / (1 - y_pred)
+
+def to_catrgorical(y, n_dims=None):
+    y = y.astype(int)
+    n_samples = y.shape[0]
+    n_dims = np.max(y) + 1 if n_dims is None else n_dims
+    one_hot = np.zeros((n_samples, n_dims))
+    one_hot[np.arange(n_samples), y] = 1
+    return one_hot
+
+def normalize(X, axis=-1, order=2):
+    """ Normalize the dataset X """
+    l2 = np.atleast_1d(np.linalg.norm(X, order, axis))
+    l2[l2 == 0] = 1
+    return X / np.expand_dims(l2, axis)
