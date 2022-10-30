@@ -42,3 +42,25 @@ def normalize(X, axis=-1, order=2):
     l2 = np.atleast_1d(np.linalg.norm(X, order, axis))
     l2[l2 == 0] = 1
     return X / np.expand_dims(l2, axis)
+
+def accuracy_score(y_true, y_pred):
+    accuracy = np.sum(y_true == y_pred, axis=0) / len(y_true)
+    return accuracy
+
+def cal_entropy(y):
+    """ Calculate the entropy of a list of examples. """
+    entropy = 0
+    labels = np.unique(y)
+    for label in labels:
+        p = y[y==label].shape[0] / y.shape[0]
+        entropy += -p * np.log2(p)
+    return entropy
+
+def calculate_covariance_matrix(X, Y=None):
+    """ Calculate the covariance matrix for the dataset X """
+    if Y is None:
+        Y = X
+    n_samples = np.shape(X)[0]
+    covariance_matrix = (1 / (n_samples-1)) * (X - X.mean(axis=0)).T.dot(Y - Y.mean(axis=0))
+
+    return np.array(covariance_matrix, dtype=float)
