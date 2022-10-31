@@ -137,17 +137,10 @@ class ClassificationTree(DecisionTree):
         super(ClassificationTree, self).fit(X, y)
 
 class RegressionTree(DecisionTree):
-    def calculate_variance(self, X):
-        """ Return the variance of the features in dataset X """
-        mean = np.ones(np.shape(X)) * X.mean(0)
-        n_samples = np.shape(X)[0]
-        variance = (1 / n_samples) * np.diag((X - mean).T.dot(X - mean))
-        
-        return variance
     def _calculate_variance_reduction(self, y, y1, y2):
-        var_tot = self.calculate_variance(y)
-        var_1 = self.calculate_variance(y1)
-        var_2 = self.calculate_variance(y2)
+        var_tot = np.var(y)
+        var_1 = np.var(y1)
+        var_2 = np.var(y2)
         frac_1 = len(y1) / len(y)
         frac_2 = len(y2) / len(y)
 
